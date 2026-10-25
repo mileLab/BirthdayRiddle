@@ -1,13 +1,13 @@
 # Geheime Geburtstagsmission 🎁
 
-Ein Geburtstagsrätsel auf einer einzigen HTML-Seite. Es sieht aus wie ein lustiges Quiz, verteilt aber bei jeder Antwort heimlich Punkte auf vier Geschenke:
+Ein Geburtstagsrätsel im Joker-Stil auf einer einzigen HTML-Seite. Der Joker hat das Geschenk versteckt und spielt ein Spiel: Karten ziehen, aus Arkham ausbrechen, ein echtes Rätsel, Münzwurf, ein falsches Zwischenergebnis und am Ende ein gezinktes Kartenspiel. Hinter den Kulissen verteilt jede Antwort heimlich Punkte auf vier Geschenke:
 
 - ✒️ Tattoo
 - 🌴 Urlaub auf Mallorca
 - 🚗 Auto
 - 💇 Typveränderung (Haarschnitt + neue Klamotten)
 
-Am Ende gibt es ein „Goldenes Ticket“ für das Geschenk mit den meisten Punkten. Bei Gleichstand entscheidet eine Stichfrage.
+Die Antworten verraten das Geschenk nicht direkt: Fast jede Antwort zählt für zwei Geschenke, und die Chaos-Runden zählen gar nicht. Am Ende zieht er eine von vier verdeckten Karten. Egal welche, sie zeigt immer das Geschenk mit den meisten Punkten (der Joker schummelt). Danach gibt es die „Joker-Karte“ als Gutschein. Bei Gleichstand entscheidet eine Stichfrage.
 
 ## Anpassen
 
@@ -16,13 +16,13 @@ Alles Wichtige steht oben im `<script>`-Block von `index.html` unter **HIER ANPA
 - `CONFIG.name`: Name deines Bruders
 - `CONFIG.from`: Dein Name
 - `GIFTS`: Titel und Text der Gutscheine
-- `QUESTIONS`: Fragen und die geheimen Punkte pro Antwort
+- `QUESTIONS`: Fragen und die geheimen Punkte pro Antwort, dazu das Rätsel (`type: "riddle"`), die Chaos-Runden (`type: "chaos"`) und das falsche Zwischenergebnis (`type: "fakeout"`)
 
 ## Ergebnis erfahren (ohne Server)
 
 - Er macht einen Screenshot vom Ticket oder schickt es dir über den WhatsApp-Button.
 - Das Ergebnis wird im Browser gespeichert. Lädt er die Seite neu, sieht er wieder sein Ticket und kann nicht neu würfeln.
-- Zum Testen: `index.html?reset` an die Adresse hängen, dann startet das Quiz neu.
+- Neu starten: unten auf der Ergebnisseite auf „Spiel zurücksetzen“ tippen (mit Nachfrage), oder `?reset` an die Adresse hängen.
 
 ## Auf GitHub Pages veröffentlichen
 
