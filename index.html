@@ -3,30 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Geheime Geburtstagsmission</title>
-<meta name="description" content="Eine geheime Mission zum Geburtstag.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+<title>Why So Serious?</title>
+<meta name="description" content="Ein Spiel. Nur für dich.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🃏</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Creepster&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg1: #1b1035;
-    --bg2: #3a1456;
-    --card: rgba(255, 255, 255, 0.08);
-    --card-border: rgba(255, 255, 255, 0.16);
-    --text: #fdf7ff;
-    --muted: #cbb8e0;
-    --accent: #ffcf4a;
-    --accent2: #ff5fa2;
-    --gold1: #f9e08b;
-    --gold2: #d9a521;
-    --ticket-text: #3b2700;
+    --purple-dark: #14061f;
+    --purple: #2a0f3d;
+    --purple-light: #5b2a86;
+    --green: #39d353;
+    --green-toxic: #7cfc00;
+    --red: #d7263d;
+    --card: #f4efe4;
+    --ink: #1a0b24;
+    --text: #f3ecff;
+    --muted: #b9a6cf;
+    --display: "Creepster", "Impact", fantasy;
+    --comic: "Bangers", "Impact", sans-serif;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; }
+  html, body { margin: 0; min-height: 100%; }
   body {
     min-height: 100vh;
-    background: radial-gradient(circle at 20% 10%, #5b1f7a 0%, transparent 45%),
-                radial-gradient(circle at 85% 90%, #7a1f4f 0%, transparent 45%),
-                linear-gradient(160deg, var(--bg1), var(--bg2));
+    background:
+      radial-gradient(circle at 15% 15%, rgba(57, 211, 83, .18) 0%, transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(215, 38, 61, .2) 0%, transparent 40%),
+      linear-gradient(160deg, var(--purple-dark), var(--purple) 55%, #1f0a2e);
     background-attachment: fixed;
     color: var(--text);
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -36,96 +41,172 @@
     padding: 24px 16px;
     overflow-x: hidden;
   }
-  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
-  main { width: 100%; max-width: 520px; }
-  .screen { display: none; animation: pop .45s ease; }
+  /* Faint scribbled "HA HA HA" wallpaper */
+  body::before {
+    content: "HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA HA";
+    position: fixed; inset: -20%;
+    font-family: var(--display); font-size: 46px; line-height: 1.5; letter-spacing: 6px;
+    color: var(--green); opacity: .05; transform: rotate(-14deg);
+    pointer-events: none; word-break: break-all; z-index: 0;
+  }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 20; width: 100%; height: 100%; }
+  main { position: relative; z-index: 1; width: 100%; max-width: 520px; }
+  .screen { display: none; animation: enter .5s cubic-bezier(.2, 1.4, .4, 1); }
   .screen.active { display: block; }
-  @keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+  @keyframes enter { from { opacity: 0; transform: translateY(18px) rotate(-1.5deg) scale(.97); } to { opacity: 1; transform: none; } }
 
   .card {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 22px;
+    background: rgba(20, 6, 31, .78);
+    border: 2px solid var(--purple-light);
+    border-radius: 18px;
     padding: 28px 22px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+    box-shadow: 0 0 0 4px rgba(57, 211, 83, .12), 0 24px 60px rgba(0, 0, 0, .55);
     text-align: center;
+    position: relative;
   }
-  .big-emoji { font-size: 64px; line-height: 1; margin-bottom: 12px; }
-  h1 { font-size: 1.7rem; margin: 0 0 10px; }
+  .card::before, .card::after {
+    position: absolute; font-size: 1.2rem; color: var(--red); opacity: .8;
+  }
+  .card::before { content: "♠ ♥"; top: 10px; left: 14px; }
+  .card::after { content: "♦ ♣"; bottom: 10px; right: 14px; transform: rotate(180deg); }
+
+  h1, .title {
+    font-family: var(--display); font-weight: 400; color: var(--green);
+    font-size: 2.6rem; line-height: 1.05; margin: 6px 0 14px;
+    text-shadow: 3px 3px 0 var(--purple-light), 0 0 18px rgba(57, 211, 83, .45);
+  }
   h2 { font-size: 1.3rem; margin: 0 0 18px; line-height: 1.35; }
   p { color: var(--muted); line-height: 1.55; margin: 0 0 16px; }
-  .stamp {
-    display: inline-block; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
-    border: 2px solid var(--accent2); color: var(--accent2); border-radius: 6px;
-    padding: 3px 9px; margin-bottom: 14px; transform: rotate(-3deg); font-weight: 700;
-  }
-  button {
-    font: inherit; cursor: pointer; border: none; -webkit-tap-highlight-color: transparent;
-  }
-  .btn {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #2a0b2f; font-weight: 800; font-size: 1.05rem;
-    padding: 15px 30px; border-radius: 999px; margin-top: 6px;
-    box-shadow: 0 8px 24px rgba(255, 95, 162, .35);
-    transition: transform .15s ease;
-  }
-  .btn:active { transform: scale(.96); }
-  .btn.secondary {
-    background: transparent; color: var(--text); border: 1px solid var(--card-border);
-    box-shadow: none; font-weight: 600; font-size: .95rem; padding: 12px 22px;
-  }
+  .ha { font-family: var(--comic); color: var(--red); letter-spacing: 2px; }
+  .grin { width: 180px; max-width: 70%; margin: 4px auto 6px; display: block; }
 
-  .progress { display: flex; justify-content: space-between; align-items: center; font-size: .85rem; color: var(--muted); margin-bottom: 10px; }
-  .bar { height: 6px; background: rgba(255,255,255,.12); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
-  .bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .4s ease; }
-  .kind { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+  button { font: inherit; cursor: pointer; border: none; -webkit-tap-highlight-color: transparent; }
+  .btn {
+    font-family: var(--comic); letter-spacing: 1.5px; font-size: 1.35rem;
+    background: var(--green); color: var(--ink);
+    padding: 12px 30px; border-radius: 10px; margin-top: 6px;
+    box-shadow: 4px 4px 0 var(--purple-light), 0 0 22px rgba(57, 211, 83, .4);
+    transform: rotate(-1.5deg);
+    transition: transform .12s ease;
+    text-decoration: none; display: inline-block;
+  }
+  .btn:active { transform: rotate(1deg) scale(.95); }
+  .btn.red { background: var(--red); color: #fff; box-shadow: 4px 4px 0 var(--purple-dark), 0 0 22px rgba(215, 38, 61, .4); }
+  .btn.ghost { background: transparent; color: var(--text); border: 2px solid var(--purple-light); box-shadow: none; font-size: 1.1rem; }
+
+  .progress { display: flex; justify-content: space-between; align-items: center; font-family: var(--comic); letter-spacing: 1px; color: var(--muted); margin: 6px 0 10px; }
+  .bar { height: 6px; background: rgba(255,255,255,.1); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
+  .bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--green), var(--green-toxic)); transition: width .4s ease; }
+  .kind { font-family: var(--comic); font-size: 1.15rem; letter-spacing: 2px; color: var(--red); margin-bottom: 6px; }
+
   .answers { display: grid; gap: 12px; }
   .answers.two { grid-template-columns: 1fr 1fr; }
   .answer {
-    background: rgba(255,255,255,.07); color: var(--text);
-    border: 1px solid var(--card-border); border-radius: 16px;
-    padding: 16px 14px; font-size: 1rem; text-align: left; line-height: 1.35;
-    transition: background .15s ease, transform .15s ease, border-color .15s ease;
+    position: relative;
+    background: var(--card); color: var(--ink);
+    border-radius: 12px; border: 2px solid #d9cfbd;
+    padding: 16px 16px 16px 44px; font-size: 1rem; text-align: left; line-height: 1.35; font-weight: 600;
+    box-shadow: 3px 3px 0 var(--purple-light);
+    transition: transform .15s ease, box-shadow .15s ease;
   }
-  .answers.two .answer, .answers.emoji .answer { text-align: center; }
-  .answers.emoji { grid-template-columns: 1fr 1fr; }
-  .answers.emoji .answer { font-size: 2.6rem; padding: 18px 0; }
-  .answer:hover { background: rgba(255,255,255,.13); }
-  .answer:active { transform: scale(.97); }
-  .answer.chosen { border-color: var(--accent); background: rgba(255, 207, 74, .18); }
-  .feedback { min-height: 1.6em; margin-top: 16px; color: var(--accent); font-weight: 600; }
+  .answer::before {
+    content: attr(data-suit); position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 1.2rem;
+  }
+  .answer[data-suit="♥"]::before, .answer[data-suit="♦"]::before { color: var(--red); }
+  .answers.two .answer { text-align: center; padding: 22px 10px; font-size: 1.1rem; }
+  .answers.two .answer::before { top: 12px; left: 10px; transform: none; font-size: 1rem; }
+  .answer:hover { transform: translate(-1px, -2px) rotate(-.6deg); box-shadow: 5px 5px 0 var(--green); }
+  .answer.chosen { animation: glitch .45s steps(2) 1; background: var(--green); border-color: var(--green); box-shadow: 3px 3px 0 var(--red); }
+  @keyframes glitch {
+    0% { transform: translate(0); } 20% { transform: translate(-4px, 2px) skewX(6deg); }
+    40% { transform: translate(4px, -2px) skewX(-6deg); } 60% { transform: translate(-2px, 1px); }
+    80% { transform: translate(2px, -1px) skewX(3deg); } 100% { transform: none; }
+  }
+  .feedback { min-height: 1.6em; margin-top: 16px; color: var(--green); font-weight: 700; }
 
-  .loader-bar { height: 14px; background: rgba(255,255,255,.12); border-radius: 99px; overflow: hidden; margin: 18px 0 12px; }
-  .loader-bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .riddle-form { display: flex; gap: 10px; }
+  .riddle-form input {
+    flex: 1; min-width: 0; font: inherit; font-size: 1.05rem; padding: 12px 14px;
+    border-radius: 10px; border: 2px solid var(--purple-light); background: var(--card); color: var(--ink);
+  }
+  .riddle-form input:focus { outline: 3px solid var(--green); }
+  .riddle-form .btn { margin: 0; font-size: 1.1rem; padding: 10px 16px; }
+  .hidden { display: none !important; }
+
+  .shake { animation: shake .5s ease 1; }
+  @keyframes shake { 0%,100% { transform: none; } 25% { transform: translateX(-8px) rotate(-1deg); } 50% { transform: translateX(8px) rotate(1deg); } 75% { transform: translateX(-4px); } }
+
+  /* Fake-out */
+  .fake-gift { font-size: 80px; margin: 8px 0; }
+  .stamp {
+    display: inline-block; font-family: var(--comic); font-size: 2.2rem; letter-spacing: 3px;
+    color: var(--red); border: 4px solid var(--red); border-radius: 8px; padding: 2px 16px;
+    transform: rotate(-8deg); margin: 10px 0 16px; animation: slam .35s cubic-bezier(.2, 1.6, .4, 1);
+  }
+  @keyframes slam { from { transform: rotate(-8deg) scale(3); opacity: 0; } to { transform: rotate(-8deg) scale(1); opacity: 1; } }
+
+  /* Suspense */
+  .loader-bar { height: 14px; background: rgba(255,255,255,.1); border-radius: 99px; overflow: hidden; margin: 18px 0 12px; }
+  .loader-bar > div { height: 100%; width: 0; background: repeating-linear-gradient(45deg, var(--green) 0 12px, var(--purple-light) 12px 24px); }
   #loaderText { min-height: 1.5em; }
 
-  .ticket {
-    position: relative;
-    background: linear-gradient(135deg, var(--gold1), var(--gold2) 60%, var(--gold1));
-    color: var(--ticket-text);
-    border-radius: 18px;
-    padding: 26px 22px 22px;
-    text-align: center;
-    box-shadow: 0 20px 50px rgba(0,0,0,.4), inset 0 0 0 2px rgba(255,255,255,.45);
-    margin-bottom: 18px;
-    overflow: hidden;
+  /* Card table */
+  .table { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0 8px; perspective: 900px; }
+  .pcard { aspect-ratio: 5 / 7; position: relative; transform-style: preserve-3d; transition: transform .7s ease; cursor: pointer; }
+  .pcard.flipped { transform: rotateY(180deg); }
+  .pcard.shuffling { animation: shuffle 1.6s ease-in-out 1; }
+  .pcard:nth-child(2).shuffling { animation-delay: .1s; }
+  .pcard:nth-child(3).shuffling { animation-delay: .2s; }
+  .pcard:nth-child(4).shuffling { animation-delay: .3s; }
+  @keyframes shuffle {
+    0%,100% { transform: none; } 20% { transform: translate(60%, -10px) rotate(8deg); }
+    45% { transform: translate(-80%, 6px) rotate(-10deg); } 70% { transform: translate(40%, -6px) rotate(5deg); }
   }
-  .ticket::before, .ticket::after {
-    content: ""; position: absolute; top: 50%; width: 28px; height: 28px;
-    background: var(--bg2); border-radius: 50%; transform: translateY(-50%);
+  .face {
+    position: absolute; inset: 0; border-radius: 8px; backface-visibility: hidden;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    box-shadow: 0 6px 16px rgba(0,0,0,.5);
   }
-  .ticket::before { left: -14px; }
-  .ticket::after { right: -14px; }
-  .ticket .label { font-size: .75rem; letter-spacing: .25em; text-transform: uppercase; font-weight: 800; opacity: .75; }
-  .ticket .gift-emoji { font-size: 72px; margin: 10px 0 4px; }
-  .ticket h1 { color: var(--ticket-text); font-size: 1.6rem; margin: 4px 0 10px; }
-  .ticket p { color: var(--ticket-text); opacity: .9; margin-bottom: 14px; }
-  .ticket .divider { border-top: 2px dashed rgba(59, 39, 0, .35); margin: 16px 0 12px; }
-  .ticket .meta { display: flex; justify-content: space-between; font-size: .8rem; font-weight: 700; gap: 10px; text-align: left; }
-  .ticket .meta span:last-child { text-align: right; }
-  .hint { font-size: .9rem; }
-  .actions { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+  .back {
+    background: repeating-linear-gradient(45deg, var(--purple-light) 0 7px, var(--purple) 7px 14px);
+    border: 3px solid var(--green);
+    font-family: var(--display); color: var(--green); font-size: 2rem; text-shadow: 2px 2px 0 var(--ink);
+  }
+  .front { background: var(--card); color: var(--red); transform: rotateY(180deg); border: 3px solid var(--red); }
+  .front .big { font-size: 2.1rem; }
+  .front .word { font-family: var(--comic); font-size: 1rem; letter-spacing: 1px; color: var(--purple); }
+
+  /* Final Joker card */
+  .joker-card {
+    position: relative; background: var(--card); color: var(--ink);
+    border-radius: 18px; border: 4px solid var(--purple);
+    outline: 3px solid var(--green); outline-offset: -12px;
+    padding: 34px 26px 26px; text-align: center; margin-bottom: 18px;
+    box-shadow: 0 0 40px rgba(57, 211, 83, .35), 0 24px 60px rgba(0,0,0,.6);
+    animation: cardIn .8s cubic-bezier(.2, 1.4, .4, 1);
+  }
+  @keyframes cardIn { from { transform: rotateY(90deg) scale(.8); } to { transform: none; } }
+  .corner { position: absolute; font-family: var(--comic); color: var(--red); font-size: 1.05rem; line-height: 1; text-align: center; letter-spacing: 1px; }
+  .corner.tl { top: 18px; left: 20px; }
+  .corner.br { bottom: 18px; right: 20px; transform: rotate(180deg); }
+  .joker-card .label { font-family: var(--comic); letter-spacing: 3px; color: var(--purple-light); font-size: 1.05rem; }
+  .joker-card .gift-emoji { font-size: 76px; margin: 8px 0 2px; }
+  .joker-card h1 { font-size: 2.2rem; color: var(--purple); text-shadow: 2px 2px 0 var(--green); margin: 4px 0 10px; }
+  .joker-card p { color: #3d2a4d; margin-bottom: 14px; }
+  .joker-card .divider { border-top: 2px dashed rgba(42, 15, 61, .35); margin: 16px 0 12px; }
+  .joker-card { padding-bottom: 48px; }
+  .joker-card .meta { display: flex; flex-direction: column; gap: 2px; font-size: .85rem; font-weight: 700; color: var(--purple); }
+  .actions { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .hint { font-size: .95rem; }
+
+  @media (max-width: 380px) {
+    h1, .title { font-size: 2.1rem; }
+    .answer { font-size: .95rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
 </style>
 </head>
 <body>
@@ -135,40 +216,75 @@
   <!-- Intro -->
   <section class="screen active" id="intro">
     <div class="card">
-      <div class="stamp">Streng geheim</div>
-      <div class="big-emoji">🕵️‍♂️</div>
-      <h1 id="introTitle"></h1>
+      <svg class="grin" viewBox="0 0 200 90" aria-hidden="true">
+        <path d="M8 22 Q100 120 192 22 Q170 40 150 46 Q100 70 50 46 Q30 40 8 22Z" fill="#d7263d"/>
+        <path d="M40 44 Q100 76 160 44 L156 52 Q100 80 44 52Z" fill="#f4efe4"/>
+        <path d="M58 50 L60 60 M76 56 L77 66 M94 59 L94 69 M112 59 L111 69 M130 56 L128 65 M146 50 L144 59" stroke="#2a0f3d" stroke-width="2"/>
+        <path d="M2 18 Q10 26 8 22 M198 18 Q190 26 192 22" stroke="#39d353" stroke-width="3" fill="none"/>
+      </svg>
+      <div class="title" id="introTitle"></div>
       <p id="introText"></p>
-      <button class="btn" id="startBtn">Mission starten 🚀</button>
+      <button class="btn" id="startBtn">Lass uns spielen</button>
     </div>
   </section>
 
-  <!-- Question -->
+  <!-- Question / riddle -->
   <section class="screen" id="quiz">
     <div class="card">
-      <div class="progress"><span id="roundLabel"></span><span>🎂</span></div>
+      <div class="progress"><span id="roundLabel"></span><span class="ha">HA!</span></div>
       <div class="bar"><div id="bar"></div></div>
       <div class="kind" id="kind"></div>
       <h2 id="question"></h2>
       <div class="answers" id="answers"></div>
+      <form class="riddle-form hidden" id="riddleForm" autocomplete="off">
+        <input id="riddleInput" type="text" placeholder="Deine Antwort…" aria-label="Deine Antwort">
+        <button class="btn" type="submit">Los</button>
+      </form>
       <div class="feedback" id="feedback"></div>
+      <button class="btn ghost hidden" id="riddleSkip">Weiter</button>
+    </div>
+  </section>
+
+  <!-- Fake-out -->
+  <section class="screen" id="fakeout">
+    <div class="card">
+      <div class="kind">Zwischenauswertung</div>
+      <h2 id="fakeTitle">Der Joker hat genug gesehen. Dein Geschenk ist…</h2>
+      <div class="fake-gift" id="fakeGift">🧦</div>
+      <h2 id="fakeName">…ein Paar Socken.</h2>
+      <div id="fakeReveal" class="hidden">
+        <div class="stamp">HAHAHAHA!</div>
+        <p>War nur Spaß. Du hast doch nicht ernsthaft geglaubt, dass es so einfach wird? Weiter geht's.</p>
+        <button class="btn red" id="fakeContinue">Weiterspielen</button>
+      </div>
     </div>
   </section>
 
   <!-- Suspense -->
   <section class="screen" id="loading">
     <div class="card">
-      <div class="big-emoji">🔮</div>
-      <h2>Die Auswertung läuft…</h2>
+      <div class="title" style="font-size:2rem">Moment…</div>
       <div class="loader-bar"><div id="loaderBar"></div></div>
       <p id="loaderText"></p>
     </div>
   </section>
 
+  <!-- Card pick -->
+  <section class="screen" id="pick">
+    <div class="card">
+      <div class="kind">Das finale Spiel</div>
+      <h2 id="pickText">Vier Karten. Eine davon ist dein Geschenk.</h2>
+      <div class="table" id="table"></div>
+      <div class="feedback" id="pickFeedback"></div>
+    </div>
+  </section>
+
   <!-- Reveal -->
   <section class="screen" id="result">
-    <div class="ticket">
-      <div class="label">✨ Goldenes Ticket ✨</div>
+    <div class="joker-card">
+      <div class="corner tl">J<br>🃏</div>
+      <div class="corner br">J<br>🃏</div>
+      <div class="label">Die Joker-Karte</div>
       <div class="gift-emoji" id="giftEmoji"></div>
       <h1 id="giftTitle"></h1>
       <p id="giftText"></p>
@@ -179,10 +295,11 @@
       </div>
     </div>
     <div class="card">
+      <div class="title" style="font-size:1.9rem">Why so serious?</div>
       <p class="hint" id="hint"></p>
       <div class="actions">
-        <a class="btn" id="shareBtn" target="_blank" rel="noopener" style="text-decoration:none">Per WhatsApp verraten 💬</a>
-        <button class="btn secondary" id="confettiBtn">Nochmal Konfetti 🎉</button>
+        <a class="btn" id="shareBtn" target="_blank" rel="noopener">Per WhatsApp verraten</a>
+        <button class="btn ghost" id="confettiBtn">Nochmal Chaos</button>
       </div>
     </div>
   </section>
@@ -196,7 +313,7 @@
 const CONFIG = {
   name: "Bruderherz",                 // Name deines Bruders
   from: "dein Lieblingsgeschwister",  // Von wem das Geschenk ist
-  whatsappText: "Mission erfüllt! 🎉 Mein Geburtstagsgeschenk ist: ",
+  whatsappText: "Der Joker hat entschieden! 🃏 Mein Geburtstagsgeschenk ist: ",
 };
 
 // Die vier möglichen Geschenke. Texte frei änderbar.
@@ -204,12 +321,12 @@ const GIFTS = {
   tattoo: {
     emoji: "✒️",
     title: "Ein Tattoo deiner Wahl",
-    text: "Für ein Kunstwerk, das für immer bleibt. Motiv und Studio suchst du aus – die Rechnung übernehme ich.",
+    text: "Ein Kunstwerk, das für immer bleibt. Motiv und Studio suchst du aus, die Rechnung übernehme ich.",
   },
   mallorca: {
     emoji: "🌴",
     title: "Urlaub auf Mallorca",
-    text: "Sonne, Meer und Sangria: Pack die Badehose ein, es geht auf die Insel!",
+    text: "Raus aus Gotham, rein in die Sonne. Pack die Badehose ein, es geht auf die Insel!",
   },
   auto: {
     emoji: "🚗",
@@ -223,126 +340,136 @@ const GIFTS = {
   },
 };
 
-// Fragen. Jede Antwort verteilt geheime Punkte auf die Geschenke.
-// layout: "list" (Standard), "two" (Dies oder Das), "emoji" (große Emojis)
-// reveal: optionaler Text, der nach der Antwort kurz eingeblendet wird.
+// Ablauf des Spiels. Mögliche Typen:
+//   (Standard) Auswahlfrage: jede Antwort verteilt geheime Punkte auf die Geschenke.
+//              layout: "two" für Dies-oder-Das. reveal: Text nach der Antwort.
+//   type "chaos":   Auswahlfrage ohne Punkte, nur zur Verwirrung.
+//   type "riddle":  echtes Rätsel zum Eintippen (zählt nicht für das Geschenk).
+//   type "fakeout": falsches Zwischenergebnis.
 const QUESTIONS = [
   {
-    kind: "Runde der Ewigkeit",
-    question: "Was hält am längsten?",
+    kind: "Die erste Karte",
+    question: "Ich halte dir vier Karten hin. Welche ziehst du?",
     answers: [
-      { text: "Tinte unter der Haut", scores: { tattoo: 3 } },
-      { text: "Erinnerungen an Sonne und Meer", scores: { mallorca: 3 } },
-      { text: "Ein Motor, der jeden Morgen anspringt", scores: { auto: 3 } },
-      { text: "Ein richtig guter erster Eindruck", scores: { style: 3 } },
+      { text: "Pik-Ass. Die Karte, vor der alle Angst haben.", scores: { tattoo: 2, auto: 1 } },
+      { text: "Herz-Dame. Charme ist auch eine Waffe.", scores: { style: 2, mallorca: 1 } },
+      { text: "Karo-König. Wer zahlt, bestimmt.", scores: { auto: 2, style: 1 } },
+      { text: "Kreuz-Bube. Der, der immer rechtzeitig abhaut.", scores: { mallorca: 2, auto: 1 } },
     ],
   },
   {
-    kind: "Dein perfekter Samstag",
-    question: "Wie sieht dein perfekter Samstag aus?",
+    kind: "Arkham Asylum",
+    question: "Du sitzt in Arkham. Wie kommst du raus?",
     answers: [
-      { text: "Strand, Sonnenbrille, kaltes Getränk", scores: { mallorca: 2 } },
-      { text: "Roadtrip ohne Ziel, Musik auf Anschlag", scores: { auto: 2, mallorca: 1 } },
-      { text: "Barber, danach Shopping, abends ausgehen", scores: { style: 2 } },
-      { text: "Zuschauen, wie etwas Einzigartiges entsteht", scores: { tattoo: 2 } },
+      { text: "Durchs Haupttor. Mit Vollgas.", scores: { auto: 2, tattoo: 1 } },
+      { text: "Als Wärter verkleidet. Keiner erkennt mich.", scores: { style: 2, mallorca: 1 } },
+      { text: "Ich ritze meinen Plan in die Zellenwand und warte.", scores: { tattoo: 2, style: 1 } },
+      { text: "Durch die Bucht schwimmen, Richtung Sonnenuntergang.", scores: { mallorca: 2, auto: 1 } },
     ],
   },
   {
-    kind: "Schnelle Runde",
-    question: "Welches Emoji bist du heute?",
-    layout: "emoji",
+    kind: "Visitenkarte",
+    question: "Was steht auf deiner Visitenkarte?",
     answers: [
-      { text: "🌴", scores: { mallorca: 2 } },
-      { text: "🚗", scores: { auto: 2 } },
-      { text: "✒️", scores: { tattoo: 2 } },
-      { text: "💇", scores: { style: 2 } },
+      { text: "„Für immer.“", scores: { tattoo: 2, style: 1 } },
+      { text: "„Nicht erreichbar.“", scores: { mallorca: 2, auto: 1 } },
+      { text: "„Schon weg.“", scores: { auto: 2, tattoo: 1 } },
+      { text: "„Du erkennst mich nicht wieder.“", scores: { style: 2, mallorca: 1 } },
     ],
   },
   {
-    kind: "Echtes Rätsel",
-    question: "Was gehört dir, wird aber von anderen viel öfter benutzt als von dir?",
-    reveal: "Richtige Antwort: dein Name 😉 Aber deine Wahl verrät mehr…",
+    type: "riddle",
+    kind: "Ein echtes Rätsel",
+    question: "Je mehr du davon machst, desto mehr lässt du hinter dir. Was ist es?",
+    accept: ["schritte", "schritt", "fußspuren", "fussspuren", "spuren", "fußstapfen", "fussstapfen"],
+    hint: "Tipp vom Joker: Denk an jemanden, der vor Batman davonläuft…",
+    solution: "Schritte",
+  },
+  {
+    type: "chaos",
+    kind: "Münzwurf",
+    question: "Ich werfe eine Münze. Kopf oder Zahl?",
+    layout: "two",
+    reveal: "Egal. Ich hab sie verschluckt. HAHAHA!",
+    answers: [{ text: "Kopf" }, { text: "Zahl" }],
+  },
+  { type: "fakeout" },
+  {
+    kind: "Gotham bei Nacht",
+    question: "Batman ist dir dicht auf den Fersen. Was ist dein Trumpf?",
     answers: [
-      { text: "Mein Name", scores: { tattoo: 1 } },
-      { text: "Mein Beifahrersitz", scores: { auto: 2 } },
-      { text: "Mein Spiegelbild", scores: { style: 2 } },
-      { text: "Mein Strandtuch", scores: { mallorca: 2 } },
+      { text: "Ich bin längst auf einer anderen Insel.", scores: { mallorca: 2, auto: 1 } },
+      { text: "Vorsprung. Immer.", scores: { auto: 2, mallorca: 1 } },
+      { text: "Ein neues Gesicht in der Menge.", scores: { style: 2, tattoo: 1 } },
+      { text: "Eine Botschaft, die er nie vergisst.", scores: { tattoo: 2, style: 1 } },
     ],
   },
   {
     kind: "Dies oder Das",
-    question: "Sonnenbrille oder Lederjacke?",
+    question: "Lieber unvergesslich oder unauffindbar?",
     layout: "two",
     answers: [
-      { text: "😎 Sonnenbrille", scores: { mallorca: 1, style: 1 } },
-      { text: "🧥 Lederjacke", scores: { tattoo: 1, auto: 1 } },
+      { text: "Unvergesslich", scores: { tattoo: 1, style: 1 } },
+      { text: "Unauffindbar", scores: { mallorca: 1, auto: 1 } },
     ],
   },
   {
-    kind: "Klangprobe",
-    question: "Welches Geräusch macht dich am glücklichsten?",
+    kind: "Gotham neu streichen",
+    question: "Der Joker streicht ganz Gotham neu. Welche Farbe kriegt die Stadt?",
     answers: [
-      { text: "Meeresrauschen", scores: { mallorca: 2 } },
-      { text: "Ein brummender Motor", scores: { auto: 2 } },
-      { text: "Das Surren einer Nadel", scores: { tattoo: 2 } },
-      { text: "„Wow, du siehst ja komplett anders aus!“", scores: { style: 2 } },
+      { text: "Lila. Wie ein maßgeschneiderter Anzug.", scores: { style: 2, auto: 1 } },
+      { text: "Grün. Wie Chemie, die nie wieder abgeht.", scores: { tattoo: 2, style: 1 } },
+      { text: "Gold. Wie Sonnenuntergang über dem Wasser.", scores: { mallorca: 2, tattoo: 1 } },
+      { text: "Schwarz. Wie die Straße um drei Uhr nachts.", scores: { auto: 2, mallorca: 1 } },
     ],
   },
   {
-    kind: "Superkraft",
-    question: "Du bekommst eine Superkraft. Welche?",
-    answers: [
-      { text: "Teleportation an jeden Strand der Welt", scores: { mallorca: 2 } },
-      { text: "Supergeschwindigkeit", scores: { auto: 2 } },
-      { text: "Gestaltwandeln: jeden Tag ein neuer Look", scores: { style: 2 } },
-      { text: "Leuchtende Zeichen auf der Haut", scores: { tattoo: 2 } },
-    ],
-  },
-  {
-    kind: "Dies oder Das",
-    question: "Freiheit oder Veränderung?",
+    type: "chaos",
+    kind: "Witzestunde",
+    question: "Warum hat der Clown die Bank ausgeraubt? Lachst du schon?",
     layout: "two",
-    answers: [
-      { text: "🕊️ Freiheit", scores: { auto: 1, mallorca: 1 } },
-      { text: "🦋 Veränderung", scores: { style: 1, tattoo: 1 } },
-    ],
+    reveal: "Falsche Antwort. Es gab keine richtige. HAHAHA!",
+    answers: [{ text: "HAHAHA" }, { text: "Nein." }],
   },
   {
-    kind: "Blick in die Zukunft",
-    question: "In 10 Jahren erzählst du allen von …",
+    kind: "Das letzte Kapitel",
+    question: "Wie soll sich Gotham an dich erinnern?",
     answers: [
-      { text: "… dem Tag, an dem ich mir mein Kunstwerk geholt habe", scores: { tattoo: 3 } },
-      { text: "… der besten Woche meines Lebens auf der Insel", scores: { mallorca: 3 } },
-      { text: "… meiner ersten eigenen Karre", scores: { auto: 3 } },
-      { text: "… dem Tag, an dem mich keiner wiedererkannt hat", scores: { style: 3 } },
+      { text: "An das, was ich hinterlassen habe.", scores: { tattoo: 2, style: 1 } },
+      { text: "Gar nicht. Ich war nie hier.", scores: { mallorca: 2, auto: 1 } },
+      { text: "Als Lichter, die im Nebel verschwinden.", scores: { auto: 2, mallorca: 1 } },
+      { text: "Als der, der jeden Tag ein anderer war.", scores: { style: 2, tattoo: 1 } },
     ],
   },
 ];
 
 // Stichfrage bei Gleichstand: es werden nur die gleichauf liegenden Geschenke angeboten.
 const TIEBREAK = {
-  kind: "Stichfrage",
-  question: "Gleichstand! Entscheide aus dem Bauch heraus:",
+  kind: "Die letzte Pointe",
+  question: "Gleichstand. Der Joker hasst Gleichstand. Was willst du wirklich?",
   answers: {
-    tattoo: "Etwas, das ich für immer bei mir trage",
-    mallorca: "Ein paar Tage einfach weg sein",
-    auto: "Losfahren, wann immer ich will",
-    style: "Ein komplett neues Ich",
+    tattoo: "Etwas, das bleibt.",
+    mallorca: "Etwas, das vergeht, aber glüht.",
+    auto: "Etwas, das sich bewegt.",
+    style: "Etwas, das sich verwandelt.",
   },
 };
 
 const LOADER_LINES = [
-  "Antworten werden entschlüsselt…",
-  "Geheimdienst wird befragt…",
-  "Sterne werden gedeutet…",
-  "Geschenk wird verpackt…",
+  "Der Joker liest deine Antworten…",
+  "Er lacht. Das ist kein gutes Zeichen…",
+  "Er mischt die Karten…",
+  "Er hat sich entschieden. Glaube ich.",
 ];
 /* ===================================================================== */
 
-const STORAGE_KEY = "birthday-riddle-result";
+const STORAGE_KEY = "joker-riddle-result";
+const SUITS = ["♠", "♥", "♦", "♣"];
 const $ = (id) => document.getElementById(id);
 const scores = Object.fromEntries(Object.keys(GIFTS).map((k) => [k, 0]));
+const ROUNDS = QUESTIONS.filter((q) => q.type !== "fakeout").length;
 let index = 0;
+let round = 0;
 let locked = false;
 
 function store(op, value) {
@@ -368,18 +495,26 @@ function shuffle(arr) {
   return a;
 }
 
-function renderQuestion(q, label, progress, onPick) {
+function setHeader(q, label, progress) {
   $("roundLabel").textContent = label;
   $("bar").style.width = progress + "%";
   $("kind").textContent = q.kind;
   $("question").textContent = q.question;
   $("feedback").textContent = "";
+  $("riddleSkip").classList.add("hidden");
+}
+
+function renderQuestion(q, label, progress, onPick) {
+  setHeader(q, label, progress);
+  $("riddleForm").classList.add("hidden");
   const box = $("answers");
   box.className = "answers" + (q.layout ? " " + q.layout : "");
   box.innerHTML = "";
-  shuffle(q.answers).forEach((a) => {
+  const suits = shuffle(SUITS);
+  shuffle(q.answers).forEach((a, i) => {
     const b = document.createElement("button");
     b.className = "answer";
+    b.dataset.suit = suits[i % suits.length];
     b.textContent = a.text;
     b.addEventListener("click", () => {
       if (locked) return;
@@ -393,16 +528,69 @@ function renderQuestion(q, label, progress, onPick) {
   show("quiz");
 }
 
-function nextQuestion() {
-  const total = QUESTIONS.length;
-  const q = QUESTIONS[index];
-  renderQuestion(q, `Runde ${index + 1} / ${total}`, (index / total) * 100, (a) => {
-    for (const [k, v] of Object.entries(a.scores)) scores[k] += v;
+function normalize(s) {
+  return s.toLowerCase().trim().replace(/[.!?"„“]/g, "").replace(/^(die|der|das|meine|deine)\s+/, "");
+}
+
+function renderRiddle(q, label, progress, done) {
+  setHeader(q, label, progress);
+  $("answers").innerHTML = "";
+  $("answers").className = "answers";
+  const form = $("riddleForm");
+  const input = $("riddleInput");
+  form.classList.remove("hidden");
+  input.value = "";
+  let attempts = 0;
+  const finish = (msg) => {
+    form.onsubmit = null;
+    form.classList.add("hidden");
+    $("feedback").textContent = msg;
+    const skip = $("riddleSkip");
+    skip.classList.remove("hidden");
+    skip.onclick = done;
+  };
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    if (!input.value.trim()) return;
+    if (q.accept.includes(normalize(input.value))) {
+      confetti(60);
+      return finish("Richtig! Der Joker ist beeindruckt. Ein bisschen.");
+    }
+    attempts++;
+    input.value = "";
+    const card = form.closest(".card");
+    card.classList.remove("shake");
+    void card.offsetWidth;
+    card.classList.add("shake");
+    if (attempts >= 4) return finish(`HAHAHA! Die Antwort war: ${q.solution}.`);
+    $("feedback").textContent = attempts >= 2 ? q.hint : "Falsch. HAHAHA! Nochmal.";
+  };
+  show("quiz");
+  setTimeout(() => input.focus(), 400);
+}
+
+function fakeout(done) {
+  $("fakeReveal").classList.add("hidden");
+  $("fakeName").classList.add("hidden");
+  $("fakeGift").classList.add("hidden");
+  show("fakeout");
+  setTimeout(() => { $("fakeGift").classList.remove("hidden"); $("fakeName").classList.remove("hidden"); }, 1400);
+  setTimeout(() => { $("fakeReveal").classList.remove("hidden"); confetti(80); }, 3400);
+  $("fakeContinue").onclick = done;
+}
+
+function next() {
+  if (index >= QUESTIONS.length) return evaluate();
+  const q = QUESTIONS[index++];
+  if (q.type === "fakeout") return fakeout(next);
+  round++;
+  const label = `Runde ${round} / ${ROUNDS}`;
+  const progress = ((round - 1) / ROUNDS) * 100;
+  if (q.type === "riddle") return renderRiddle(q, label, progress, next);
+  renderQuestion(q, label, progress, (a) => {
+    if (q.type !== "chaos") for (const [k, v] of Object.entries(a.scores)) scores[k] += v;
     if (q.reveal) $("feedback").textContent = q.reveal;
-    setTimeout(() => {
-      index++;
-      index < total ? nextQuestion() : evaluate();
-    }, q.reveal ? 2200 : 550);
+    setTimeout(next, q.reveal ? 2200 : 600);
   });
 }
 
@@ -416,22 +604,61 @@ function evaluate() {
     layout: leaders.length === 2 ? "two" : undefined,
     answers: leaders.map((k) => ({ text: TIEBREAK.answers[k], gift: k })),
   };
-  renderQuestion(q, "Bonusrunde", 100, (a) => setTimeout(() => suspense(a.gift), 550));
+  renderQuestion(q, "Bonusrunde", 100, (a) => setTimeout(() => suspense(a.gift), 600));
 }
 
 function suspense(gift) {
   store("set", gift);
   show("loading");
   const bar = $("loaderBar");
-  const duration = 3600;
+  const duration = 4000;
   const start = performance.now();
   function tick(now) {
     const t = Math.min(1, (now - start) / duration);
     bar.style.width = (t * 100) + "%";
     $("loaderText").textContent = LOADER_LINES[Math.min(LOADER_LINES.length - 1, Math.floor(t * LOADER_LINES.length))];
-    t < 1 ? requestAnimationFrame(tick) : reveal(gift);
+    t < 1 ? requestAnimationFrame(tick) : pickCard(gift);
   }
   requestAnimationFrame(tick);
+}
+
+// Der Joker spielt nie fair: egal welche Karte gewählt wird, sie zeigt das Gewinner-Geschenk.
+function pickCard(gift) {
+  const table = $("table");
+  table.innerHTML = "";
+  $("pickText").textContent = "Vier Karten. Eine davon ist dein Geschenk.";
+  $("pickFeedback").textContent = "";
+  const cards = [];
+  for (let i = 0; i < 4; i++) {
+    const c = document.createElement("div");
+    c.className = "pcard shuffling";
+    c.innerHTML = `<div class="face back">J</div><div class="face front"></div>`;
+    table.appendChild(c);
+    cards.push(c);
+  }
+  show("pick");
+  let ready = false;
+  setTimeout(() => {
+    cards.forEach((c) => c.classList.remove("shuffling"));
+    $("pickText").textContent = "Zieh eine. Irgendeine. Ich schwöre, ich schummle nicht.";
+    ready = true;
+  }, 2000);
+  cards.forEach((c) => c.addEventListener("click", () => {
+    if (!ready) return;
+    ready = false;
+    const g = GIFTS[gift];
+    c.querySelector(".front").innerHTML = `<div class="big">${g.emoji}</div>`;
+    c.classList.add("flipped");
+    $("pickFeedback").textContent = "Gute Wahl…";
+    setTimeout(() => {
+      cards.filter((o) => o !== c).forEach((o) => {
+        o.querySelector(".front").innerHTML = `<div class="word">HA</div><div class="big">🃏</div><div class="word">HA</div>`;
+        o.classList.add("flipped");
+      });
+      $("pickFeedback").textContent = "Die anderen? Alles Joker. Ich hab natürlich geschummelt. HAHAHA!";
+    }, 1100);
+    setTimeout(() => reveal(gift), 3600);
+  }));
 }
 
 function reveal(gift) {
@@ -441,13 +668,13 @@ function reveal(gift) {
   $("giftText").textContent = g.text;
   $("ticketFor").textContent = "Für: " + CONFIG.name;
   $("ticketFrom").textContent = "Von: " + CONFIG.from;
-  $("hint").textContent = `Mission erfüllt, ${CONFIG.name}! Mach einen Screenshot von diesem Ticket und schick ihn mir, um dein Geschenk einzulösen.`;
+  $("hint").textContent = `Alles Gute zum Geburtstag, ${CONFIG.name}! Mach einen Screenshot von dieser Karte und schick ihn mir, um dein Geschenk einzulösen.`;
   $("shareBtn").href = "https://wa.me/?text=" + encodeURIComponent(CONFIG.whatsappText + g.emoji + " " + g.title);
   show("result");
-  confetti();
+  confetti(220);
 }
 
-/* ---------- Konfetti ---------- */
+/* ---------- Chaos-Konfetti: Karten-Symbole in Lila, Grün und Rot ---------- */
 const canvas = $("confetti");
 const ctx = canvas.getContext("2d");
 let pieces = [];
@@ -461,18 +688,21 @@ window.addEventListener("resize", resize);
 resize();
 
 function confetti(count = 160) {
-  const colors = ["#ffcf4a", "#ff5fa2", "#7ee8fa", "#a78bfa", "#ffffff", "#5eead4"];
+  const colors = ["#39d353", "#7cfc00", "#d7263d", "#8e4fc2", "#f4efe4"];
+  const shapes = ["rect", "rect", "♠", "♥", "♦", "♣", "HA"];
   const w = canvas.width;
+  const dpr = devicePixelRatio;
   for (let i = 0; i < count; i++) {
     pieces.push({
       x: w / 2 + (Math.random() - 0.5) * w * 0.3,
       y: canvas.height * 0.35,
-      vx: (Math.random() - 0.5) * 22 * devicePixelRatio,
-      vy: (-Math.random() * 18 - 6) * devicePixelRatio,
-      size: (6 + Math.random() * 6) * devicePixelRatio,
+      vx: (Math.random() - 0.5) * 22 * dpr,
+      vy: (-Math.random() * 18 - 6) * dpr,
+      size: (8 + Math.random() * 8) * dpr,
       rot: Math.random() * Math.PI,
       vr: (Math.random() - 0.5) * 0.3,
       color: colors[(Math.random() * colors.length) | 0],
+      shape: shapes[(Math.random() * shapes.length) | 0],
       life: 0,
     });
   }
@@ -480,9 +710,10 @@ function confetti(count = 160) {
 }
 
 function drawConfetti() {
+  const dpr = devicePixelRatio;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   pieces.forEach((p) => {
-    p.vy += 0.45 * devicePixelRatio;
+    p.vy += 0.45 * dpr;
     p.vx *= 0.99;
     p.x += p.vx;
     p.y += p.vy;
@@ -492,18 +723,24 @@ function drawConfetti() {
     ctx.translate(p.x, p.y);
     ctx.rotate(p.rot);
     ctx.fillStyle = p.color;
-    ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+    if (p.shape === "rect") {
+      ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+    } else {
+      ctx.font = `${p.shape === "HA" ? p.size * 1.1 : p.size * 1.6}px Bangers, Impact, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText(p.shape, 0, 0);
+    }
     ctx.restore();
   });
-  pieces = pieces.filter((p) => p.y < canvas.height + 50 && p.life < 400);
+  pieces = pieces.filter((p) => p.y < canvas.height + 60 && p.life < 400);
   if (pieces.length) requestAnimationFrame(drawConfetti);
   else { animating = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
 }
 
 /* ---------- Start ---------- */
-$("introTitle").textContent = `Agent ${CONFIG.name}, alles Gute zum Geburtstag!`;
-$("introText").textContent = `Deine geheime Mission: Beantworte ${QUESTIONS.length} Fragen ehrlich und aus dem Bauch heraus. Am Ende wartet eine Überraschung auf dich. 🎁`;
-$("startBtn").addEventListener("click", () => { index = 0; nextQuestion(); });
+$("introTitle").textContent = `Why so serious, ${CONFIG.name}?`;
+$("introText").textContent = `Es ist dein Geburtstag, und der Joker hat dein Geschenk versteckt. Spiel sein Spiel: ${ROUNDS} Runden, keine Regeln, keine richtigen Antworten. Nur ehrliche. HAHAHA!`;
+$("startBtn").addEventListener("click", () => { index = 0; round = 0; next(); });
 $("confettiBtn").addEventListener("click", () => confetti());
 
 if (new URLSearchParams(location.search).has("reset")) store("clear");
