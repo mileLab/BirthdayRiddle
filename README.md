@@ -22,7 +22,7 @@ Alles Wichtige steht oben im `<script>`-Block von `index.html` unter **HIER ANPA
 
 - Er macht einen Screenshot vom Ticket oder schickt es dir über den WhatsApp-Button.
 - Das Ergebnis wird im Browser gespeichert. Lädt er die Seite neu, sieht er wieder sein Ticket und kann nicht neu würfeln.
-- Zum Testen: `index.html?reset` an die Adresse hängen, dann startet das Quiz neu.
+- Neu starten: unten auf der Ergebnisseite auf „Spiel zurücksetzen“ tippen (mit Nachfrage), oder `?reset` an die Adresse hängen.
 
 ## Auf GitHub Pages veröffentlichen
 

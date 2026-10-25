@@ -199,6 +199,7 @@
   .joker-card .meta { display: flex; flex-direction: column; gap: 2px; font-size: .85rem; font-weight: 700; color: var(--purple); }
   .actions { display: flex; flex-direction: column; gap: 12px; align-items: center; }
   .hint { font-size: .95rem; }
+  .reset-link { background: none; color: var(--muted); font-size: .8rem; text-decoration: underline; opacity: .6; padding: 6px; margin-top: 4px; }
 
   @media (max-width: 380px) {
     h1, .title { font-size: 2.1rem; }
@@ -300,6 +301,7 @@
       <div class="actions">
         <a class="btn" id="shareBtn" target="_blank" rel="noopener">Per WhatsApp verraten</a>
         <button class="btn ghost" id="confettiBtn">Nochmal Chaos</button>
+        <button class="reset-link" id="resetBtn">Spiel zurücksetzen</button>
       </div>
     </div>
   </section>
@@ -742,6 +744,11 @@ $("introTitle").textContent = `Why so serious, ${CONFIG.name}?`;
 $("introText").textContent = `Es ist dein Geburtstag, und der Joker hat dein Geschenk versteckt. Spiel sein Spiel: ${ROUNDS} Runden, keine Regeln, keine richtigen Antworten. Nur ehrliche. HAHAHA!`;
 $("startBtn").addEventListener("click", () => { index = 0; round = 0; next(); });
 $("confettiBtn").addEventListener("click", () => confetti());
+$("resetBtn").addEventListener("click", () => {
+  if (!confirm("Wirklich zurücksetzen? Die Joker-Karte geht verloren und das Spiel startet neu.")) return;
+  store("clear");
+  location.replace(location.pathname);
+});
 
 if (new URLSearchParams(location.search).has("reset")) store("clear");
 const saved = store("get");
