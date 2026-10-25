@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geheime Geburtstagsmission</title>
+<meta name="description" content="Eine geheime Mission zum Geburtstag.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+<style>
+  :root {
+    --bg1: #1b1035;
+    --bg2: #3a1456;
+    --card: rgba(255, 255, 255, 0.08);
+    --card-border: rgba(255, 255, 255, 0.16);
+    --text: #fdf7ff;
+    --muted: #cbb8e0;
+    --accent: #ffcf4a;
+    --accent2: #ff5fa2;
+    --gold1: #f9e08b;
+    --gold2: #d9a521;
+    --ticket-text: #3b2700;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    min-height: 100vh;
+    background: radial-gradient(circle at 20% 10%, #5b1f7a 0%, transparent 45%),
+                radial-gradient(circle at 85% 90%, #7a1f4f 0%, transparent 45%),
+                linear-gradient(160deg, var(--bg1), var(--bg2));
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    overflow-x: hidden;
+  }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+  main { width: 100%; max-width: 520px; }
+  .screen { display: none; animation: pop .45s ease; }
+  .screen.active { display: block; }
+  @keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 22px;
+    padding: 28px 22px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+    text-align: center;
+  }
+  .big-emoji { font-size: 64px; line-height: 1; margin-bottom: 12px; }
+  h1 { font-size: 1.7rem; margin: 0 0 10px; }
+  h2 { font-size: 1.3rem; margin: 0 0 18px; line-height: 1.35; }
+  p { color: var(--muted); line-height: 1.55; margin: 0 0 16px; }
+  .stamp {
+    display: inline-block; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    border: 2px solid var(--accent2); color: var(--accent2); border-radius: 6px;
+    padding: 3px 9px; margin-bottom: 14px; transform: rotate(-3deg); font-weight: 700;
+  }
+  button {
+    font: inherit; cursor: pointer; border: none; -webkit-tap-highlight-color: transparent;
+  }
+  .btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #2a0b2f; font-weight: 800; font-size: 1.05rem;
+    padding: 15px 30px; border-radius: 999px; margin-top: 6px;
+    box-shadow: 0 8px 24px rgba(255, 95, 162, .35);
+    transition: transform .15s ease;
+  }
+  .btn:active { transform: scale(.96); }
+  .btn.secondary {
+    background: transparent; color: var(--text); border: 1px solid var(--card-border);
+    box-shadow: none; font-weight: 600; font-size: .95rem; padding: 12px 22px;
+  }
+
+  .progress { display: flex; justify-content: space-between; align-items: center; font-size: .85rem; color: var(--muted); margin-bottom: 10px; }
+  .bar { height: 6px; background: rgba(255,255,255,.12); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
+  .bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .4s ease; }
+  .kind { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+  .answers { display: grid; gap: 12px; }
+  .answers.two { grid-template-columns: 1fr 1fr; }
+  .answer {
+    background: rgba(255,255,255,.07); color: var(--text);
+    border: 1px solid var(--card-border); border-radius: 16px;
+    padding: 16px 14px; font-size: 1rem; text-align: left; line-height: 1.35;
+    transition: background .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .answers.two .answer, .answers.emoji .answer { text-align: center; }
+  .answers.emoji { grid-template-columns: 1fr 1fr; }
+  .answers.emoji .answer { font-size: 2.6rem; padding: 18px 0; }
+  .answer:hover { background: rgba(255,255,255,.13); }
+  .answer:active { transform: scale(.97); }
+  .answer.chosen { border-color: var(--accent); background: rgba(255, 207, 74, .18); }
+  .feedback { min-height: 1.6em; margin-top: 16px; color: var(--accent); font-weight: 600; }
+
+  .loader-bar { height: 14px; background: rgba(255,255,255,.12); border-radius: 99px; overflow: hidden; margin: 18px 0 12px; }
+  .loader-bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  #loaderText { min-height: 1.5em; }
+
+  .ticket {
+    position: relative;
+    background: linear-gradient(135deg, var(--gold1), var(--gold2) 60%, var(--gold1));
+    color: var(--ticket-text);
+    border-radius: 18px;
+    padding: 26px 22px 22px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,.4), inset 0 0 0 2px rgba(255,255,255,.45);
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .ticket::before, .ticket::after {
+    content: ""; position: absolute; top: 50%; width: 28px; height: 28px;
+    background: var(--bg2); border-radius: 50%; transform: translateY(-50%);
+  }
+  .ticket::before { left: -14px; }
+  .ticket::after { right: -14px; }
+  .ticket .label { font-size: .75rem; letter-spacing: .25em; text-transform: uppercase; font-weight: 800; opacity: .75; }
+  .ticket .gift-emoji { font-size: 72px; margin: 10px 0 4px; }
+  .ticket h1 { color: var(--ticket-text); font-size: 1.6rem; margin: 4px 0 10px; }
+  .ticket p { color: var(--ticket-text); opacity: .9; margin-bottom: 14px; }
+  .ticket .divider { border-top: 2px dashed rgba(59, 39, 0, .35); margin: 16px 0 12px; }
+  .ticket .meta { display: flex; justify-content: space-between; font-size: .8rem; font-weight: 700; gap: 10px; text-align: left; }
+  .ticket .meta span:last-child { text-align: right; }
+  .hint { font-size: .9rem; }
+  .actions { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<main>
+
+  <!-- Intro -->
+  <section class="screen active" id="intro">
+    <div class="card">
+      <div class="stamp">Streng geheim</div>
+      <div class="big-emoji">🕵️‍♂️</div>
+      <h1 id="introTitle"></h1>
+      <p id="introText"></p>
+      <button class="btn" id="startBtn">Mission starten 🚀</button>
+    </div>
+  </section>
+
+  <!-- Question -->
+  <section class="screen" id="quiz">
+    <div class="card">
+      <div class="progress"><span id="roundLabel"></span><span>🎂</span></div>
+      <div class="bar"><div id="bar"></div></div>
+      <div class="kind" id="kind"></div>
+      <h2 id="question"></h2>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+  </section>
+
+  <!-- Suspense -->
+  <section class="screen" id="loading">
+    <div class="card">
+      <div class="big-emoji">🔮</div>
+      <h2>Die Auswertung läuft…</h2>
+      <div class="loader-bar"><div id="loaderBar"></div></div>
+      <p id="loaderText"></p>
+    </div>
+  </section>
+
+  <!-- Reveal -->
+  <section class="screen" id="result">
+    <div class="ticket">
+      <div class="label">✨ Goldenes Ticket ✨</div>
+      <div class="gift-emoji" id="giftEmoji"></div>
+      <h1 id="giftTitle"></h1>
+      <p id="giftText"></p>
+      <div class="divider"></div>
+      <div class="meta">
+        <span id="ticketFor"></span>
+        <span id="ticketFrom"></span>
+      </div>
+    </div>
+    <div class="card">
+      <p class="hint" id="hint"></p>
+      <div class="actions">
+        <a class="btn" id="shareBtn" target="_blank" rel="noopener" style="text-decoration:none">Per WhatsApp verraten 💬</a>
+        <button class="btn secondary" id="confettiBtn">Nochmal Konfetti 🎉</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* =====================================================================
+   HIER ANPASSEN
+   ===================================================================== */
+const CONFIG = {
+  name: "Bruderherz",                 // Name deines Bruders
+  from: "dein Lieblingsgeschwister",  // Von wem das Geschenk ist
+  whatsappText: "Mission erfüllt! 🎉 Mein Geburtstagsgeschenk ist: ",
+};
+
+// Die vier möglichen Geschenke. Texte frei änderbar.
+const GIFTS = {
+  tattoo: {
+    emoji: "✒️",
+    title: "Ein Tattoo deiner Wahl",
+    text: "Für ein Kunstwerk, das für immer bleibt. Motiv und Studio suchst du aus – die Rechnung übernehme ich.",
+  },
+  mallorca: {
+    emoji: "🌴",
+    title: "Urlaub auf Mallorca",
+    text: "Sonne, Meer und Sangria: Pack die Badehose ein, es geht auf die Insel!",
+  },
+  auto: {
+    emoji: "🚗",
+    title: "Dein Traum auf vier Rädern",
+    text: "Motor an, Fenster runter, Musik laut. Zeit für deine eigene Karre!",
+  },
+  style: {
+    emoji: "💇",
+    title: "Die große Typveränderung",
+    text: "Neuer Haarschnitt beim Profi und danach eine Shopping-Tour für den kompletten neuen Look.",
+  },
+};
+
+// Fragen. Jede Antwort verteilt geheime Punkte auf die Geschenke.
+// layout: "list" (Standard), "two" (Dies oder Das), "emoji" (große Emojis)
+// reveal: optionaler Text, der nach der Antwort kurz eingeblendet wird.
+const QUESTIONS = [
+  {
+    kind: "Runde der Ewigkeit",
+    question: "Was hält am längsten?",
+    answers: [
+      { text: "Tinte unter der Haut", scores: { tattoo: 3 } },
+      { text: "Erinnerungen an Sonne und Meer", scores: { mallorca: 3 } },
+      { text: "Ein Motor, der jeden Morgen anspringt", scores: { auto: 3 } },
+      { text: "Ein richtig guter erster Eindruck", scores: { style: 3 } },
+    ],
+  },
+  {
+    kind: "Dein perfekter Samstag",
+    question: "Wie sieht dein perfekter Samstag aus?",
+    answers: [
+      { text: "Strand, Sonnenbrille, kaltes Getränk", scores: { mallorca: 2 } },
+      { text: "Roadtrip ohne Ziel, Musik auf Anschlag", scores: { auto: 2, mallorca: 1 } },
+      { text: "Barber, danach Shopping, abends ausgehen", scores: { style: 2 } },
+      { text: "Zuschauen, wie etwas Einzigartiges entsteht", scores: { tattoo: 2 } },
+    ],
+  },
+  {
+    kind: "Schnelle Runde",
+    question: "Welches Emoji bist du heute?",
+    layout: "emoji",
+    answers: [
+      { text: "🌴", scores: { mallorca: 2 } },
+      { text: "🚗", scores: { auto: 2 } },
+      { text: "✒️", scores: { tattoo: 2 } },
+      { text: "💇", scores: { style: 2 } },
+    ],
+  },
+  {
+    kind: "Echtes Rätsel",
+    question: "Was gehört dir, wird aber von anderen viel öfter benutzt als von dir?",
+    reveal: "Richtige Antwort: dein Name 😉 Aber deine Wahl verrät mehr…",
+    answers: [
+      { text: "Mein Name", scores: { tattoo: 1 } },
+      { text: "Mein Beifahrersitz", scores: { auto: 2 } },
+      { text: "Mein Spiegelbild", scores: { style: 2 } },
+      { text: "Mein Strandtuch", scores: { mallorca: 2 } },
+    ],
+  },
+  {
+    kind: "Dies oder Das",
+    question: "Sonnenbrille oder Lederjacke?",
+    layout: "two",
+    answers: [
+      { text: "😎 Sonnenbrille", scores: { mallorca: 1, style: 1 } },
+      { text: "🧥 Lederjacke", scores: { tattoo: 1, auto: 1 } },
+    ],
+  },
+  {
+    kind: "Klangprobe",
+    question: "Welches Geräusch macht dich am glücklichsten?",
+    answers: [
+      { text: "Meeresrauschen", scores: { mallorca: 2 } },
+      { text: "Ein brummender Motor", scores: { auto: 2 } },
+      { text: "Das Surren einer Nadel", scores: { tattoo: 2 } },
+      { text: "„Wow, du siehst ja komplett anders aus!“", scores: { style: 2 } },
+    ],
+  },
+  {
+    kind: "Superkraft",
+    question: "Du bekommst eine Superkraft. Welche?",
+    answers: [
+      { text: "Teleportation an jeden Strand der Welt", scores: { mallorca: 2 } },
+      { text: "Supergeschwindigkeit", scores: { auto: 2 } },
+      { text: "Gestaltwandeln: jeden Tag ein neuer Look", scores: { style: 2 } },
+      { text: "Leuchtende Zeichen auf der Haut", scores: { tattoo: 2 } },
+    ],
+  },
+  {
+    kind: "Dies oder Das",
+    question: "Freiheit oder Veränderung?",
+    layout: "two",
+    answers: [
+      { text: "🕊️ Freiheit", scores: { auto: 1, mallorca: 1 } },
+      { text: "🦋 Veränderung", scores: { style: 1, tattoo: 1 } },
+    ],
+  },
+  {
+    kind: "Blick in die Zukunft",
+    question: "In 10 Jahren erzählst du allen von …",
+    answers: [
+      { text: "… dem Tag, an dem ich mir mein Kunstwerk geholt habe", scores: { tattoo: 3 } },
+      { text: "… der besten Woche meines Lebens auf der Insel", scores: { mallorca: 3 } },
+      { text: "… meiner ersten eigenen Karre", scores: { auto: 3 } },
+      { text: "… dem Tag, an dem mich keiner wiedererkannt hat", scores: { style: 3 } },
+    ],
+  },
+];
+
+// Stichfrage bei Gleichstand: es werden nur die gleichauf liegenden Geschenke angeboten.
+const TIEBREAK = {
+  kind: "Stichfrage",
+  question: "Gleichstand! Entscheide aus dem Bauch heraus:",
+  answers: {
+    tattoo: "Etwas, das ich für immer bei mir trage",
+    mallorca: "Ein paar Tage einfach weg sein",
+    auto: "Losfahren, wann immer ich will",
+    style: "Ein komplett neues Ich",
+  },
+};
+
+const LOADER_LINES = [
+  "Antworten werden entschlüsselt…",
+  "Geheimdienst wird befragt…",
+  "Sterne werden gedeutet…",
+  "Geschenk wird verpackt…",
+];
+/* ===================================================================== */
+
+const STORAGE_KEY = "birthday-riddle-result";
+const $ = (id) => document.getElementById(id);
+const scores = Object.fromEntries(Object.keys(GIFTS).map((k) => [k, 0]));
+let index = 0;
+let locked = false;
+
+function store(op, value) {
+  try {
+    if (op === "get") return localStorage.getItem(STORAGE_KEY);
+    if (op === "set") localStorage.setItem(STORAGE_KEY, value);
+    if (op === "clear") localStorage.removeItem(STORAGE_KEY);
+  } catch (e) { /* Speicher nicht verfügbar – egal */ }
+  return null;
+}
+
+function show(id) {
+  document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
+  window.scrollTo({ top: 0 });
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderQuestion(q, label, progress, onPick) {
+  $("roundLabel").textContent = label;
+  $("bar").style.width = progress + "%";
+  $("kind").textContent = q.kind;
+  $("question").textContent = q.question;
+  $("feedback").textContent = "";
+  const box = $("answers");
+  box.className = "answers" + (q.layout ? " " + q.layout : "");
+  box.innerHTML = "";
+  shuffle(q.answers).forEach((a) => {
+    const b = document.createElement("button");
+    b.className = "answer";
+    b.textContent = a.text;
+    b.addEventListener("click", () => {
+      if (locked) return;
+      locked = true;
+      b.classList.add("chosen");
+      onPick(a);
+    });
+    box.appendChild(b);
+  });
+  locked = false;
+  show("quiz");
+}
+
+function nextQuestion() {
+  const total = QUESTIONS.length;
+  const q = QUESTIONS[index];
+  renderQuestion(q, `Runde ${index + 1} / ${total}`, (index / total) * 100, (a) => {
+    for (const [k, v] of Object.entries(a.scores)) scores[k] += v;
+    if (q.reveal) $("feedback").textContent = q.reveal;
+    setTimeout(() => {
+      index++;
+      index < total ? nextQuestion() : evaluate();
+    }, q.reveal ? 2200 : 550);
+  });
+}
+
+function evaluate() {
+  const best = Math.max(...Object.values(scores));
+  const leaders = Object.keys(scores).filter((k) => scores[k] === best);
+  if (leaders.length === 1) return suspense(leaders[0]);
+  const q = {
+    kind: TIEBREAK.kind,
+    question: TIEBREAK.question,
+    layout: leaders.length === 2 ? "two" : undefined,
+    answers: leaders.map((k) => ({ text: TIEBREAK.answers[k], gift: k })),
+  };
+  renderQuestion(q, "Bonusrunde", 100, (a) => setTimeout(() => suspense(a.gift), 550));
+}
+
+function suspense(gift) {
+  store("set", gift);
+  show("loading");
+  const bar = $("loaderBar");
+  const duration = 3600;
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min(1, (now - start) / duration);
+    bar.style.width = (t * 100) + "%";
+    $("loaderText").textContent = LOADER_LINES[Math.min(LOADER_LINES.length - 1, Math.floor(t * LOADER_LINES.length))];
+    t < 1 ? requestAnimationFrame(tick) : reveal(gift);
+  }
+  requestAnimationFrame(tick);
+}
+
+function reveal(gift) {
+  const g = GIFTS[gift];
+  $("giftEmoji").textContent = g.emoji;
+  $("giftTitle").textContent = g.title;
+  $("giftText").textContent = g.text;
+  $("ticketFor").textContent = "Für: " + CONFIG.name;
+  $("ticketFrom").textContent = "Von: " + CONFIG.from;
+  $("hint").textContent = `Mission erfüllt, ${CONFIG.name}! Mach einen Screenshot von diesem Ticket und schick ihn mir, um dein Geschenk einzulösen.`;
+  $("shareBtn").href = "https://wa.me/?text=" + encodeURIComponent(CONFIG.whatsappText + g.emoji + " " + g.title);
+  show("result");
+  confetti();
+}
+
+/* ---------- Konfetti ---------- */
+const canvas = $("confetti");
+const ctx = canvas.getContext("2d");
+let pieces = [];
+let animating = false;
+
+function resize() {
+  canvas.width = window.innerWidth * devicePixelRatio;
+  canvas.height = window.innerHeight * devicePixelRatio;
+}
+window.addEventListener("resize", resize);
+resize();
+
+function confetti(count = 160) {
+  const colors = ["#ffcf4a", "#ff5fa2", "#7ee8fa", "#a78bfa", "#ffffff", "#5eead4"];
+  const w = canvas.width;
+  for (let i = 0; i < count; i++) {
+    pieces.push({
+      x: w / 2 + (Math.random() - 0.5) * w * 0.3,
+      y: canvas.height * 0.35,
+      vx: (Math.random() - 0.5) * 22 * devicePixelRatio,
+      vy: (-Math.random() * 18 - 6) * devicePixelRatio,
+      size: (6 + Math.random() * 6) * devicePixelRatio,
+      rot: Math.random() * Math.PI,
+      vr: (Math.random() - 0.5) * 0.3,
+      color: colors[(Math.random() * colors.length) | 0],
+      life: 0,
+    });
+  }
+  if (!animating) { animating = true; requestAnimationFrame(drawConfetti); }
+}
+
+function drawConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  pieces.forEach((p) => {
+    p.vy += 0.45 * devicePixelRatio;
+    p.vx *= 0.99;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.vr;
+    p.life++;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+    ctx.restore();
+  });
+  pieces = pieces.filter((p) => p.y < canvas.height + 50 && p.life < 400);
+  if (pieces.length) requestAnimationFrame(drawConfetti);
+  else { animating = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
+}
+
+/* ---------- Start ---------- */
+$("introTitle").textContent = `Agent ${CONFIG.name}, alles Gute zum Geburtstag!`;
+$("introText").textContent = `Deine geheime Mission: Beantworte ${QUESTIONS.length} Fragen ehrlich und aus dem Bauch heraus. Am Ende wartet eine Überraschung auf dich. 🎁`;
+$("startBtn").addEventListener("click", () => { index = 0; nextQuestion(); });
+$("confettiBtn").addEventListener("click", () => confetti());
+
+if (new URLSearchParams(location.search).has("reset")) store("clear");
+const saved = store("get");
+if (saved && GIFTS[saved]) reveal(saved);
+else setTimeout(() => confetti(90), 300);
+</script>
+</body>
+</html>
