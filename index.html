@@ -318,7 +318,7 @@ const CONFIG = {
   whatsappText: "Der Joker hat entschieden! 🃏 Mein Geburtstagsgeschenk ist: ",
 };
 
-// Die vier möglichen Geschenke. Texte frei änderbar.
+// Die fünf möglichen Geschenke. Texte frei änderbar.
 const GIFTS = {
   tattoo: {
     emoji: "✒️",
@@ -340,6 +340,11 @@ const GIFTS = {
     title: "300 € für die große Typveränderung",
     text: "Neuer Haarschnitt beim Profi und danach eine Shopping-Tour für den kompletten neuen Look. 300 € gehen auf mich.",
   },
+  chair: {
+    emoji: "🎮",
+    title: "250 € für einen Secretlab-Stuhl",
+    text: "Jeder Bösewicht braucht einen Thron. 250 € für deinen neuen Secretlab Gaming-Stuhl, Gotham regiert man im Sitzen.",
+  },
 };
 
 // Ablauf des Spiels. Mögliche Typen:
@@ -351,12 +356,13 @@ const GIFTS = {
 const QUESTIONS = [
   {
     kind: "Die erste Karte",
-    question: "Ich halte dir vier Karten hin. Welche ziehst du?",
+    question: "Ich halte dir fünf Karten hin. Welche ziehst du?",
     answers: [
       { text: "Pik-Ass. Die Karte, vor der alle Angst haben.", scores: { tattoo: 2, auto: 1 } },
       { text: "Herz-Dame. Charme ist auch eine Waffe.", scores: { style: 2, mallorca: 1 } },
       { text: "Karo-König. Wer zahlt, bestimmt.", scores: { auto: 2, style: 1 } },
       { text: "Kreuz-Bube. Der, der immer rechtzeitig abhaut.", scores: { mallorca: 2, auto: 1 } },
+      { text: "Gar keine. Ich lehn mich zurück und schau zu, wie die anderen verlieren.", scores: { chair: 2, style: 1 } },
     ],
   },
   {
@@ -367,6 +373,7 @@ const QUESTIONS = [
       { text: "Als Wärter verkleidet. Keiner erkennt mich.", scores: { style: 2, mallorca: 1 } },
       { text: "Ich ritze meinen Plan in die Zellenwand und warte.", scores: { tattoo: 2, style: 1 } },
       { text: "Durch die Bucht schwimmen, Richtung Sonnenuntergang.", scores: { mallorca: 2, auto: 1 } },
+      { text: "Gar nicht. Hier gibt es WLAN, und ich plane von hier aus.", scores: { chair: 2, tattoo: 1 } },
     ],
   },
   {
@@ -377,6 +384,7 @@ const QUESTIONS = [
       { text: "„Nicht erreichbar.“", scores: { mallorca: 2, auto: 1 } },
       { text: "„Schon weg.“", scores: { auto: 2, tattoo: 1 } },
       { text: "„Du erkennst mich nicht wieder.“", scores: { style: 2, mallorca: 1 } },
+      { text: "„Bitte nicht stören.“", scores: { chair: 2, mallorca: 1 } },
     ],
   },
   {
@@ -404,6 +412,7 @@ const QUESTIONS = [
       { text: "Vorsprung. Immer.", scores: { auto: 2, mallorca: 1 } },
       { text: "Ein neues Gesicht in der Menge.", scores: { style: 2, tattoo: 1 } },
       { text: "Eine Botschaft, die er nie vergisst.", scores: { tattoo: 2, style: 1 } },
+      { text: "Ich steuere alles aus meinem Versteck. Er jagt nur einen Schatten.", scores: { chair: 2, auto: 1 } },
     ],
   },
   {
@@ -412,7 +421,7 @@ const QUESTIONS = [
     layout: "two",
     answers: [
       { text: "Unvergesslich", scores: { tattoo: 1, style: 1 } },
-      { text: "Unauffindbar", scores: { mallorca: 1, auto: 1 } },
+      { text: "Unauffindbar", scores: { mallorca: 1, auto: 1, chair: 1 } },
     ],
   },
   {
@@ -423,6 +432,7 @@ const QUESTIONS = [
       { text: "Grün. Wie Chemie, die nie wieder abgeht.", scores: { tattoo: 2, style: 1 } },
       { text: "Gold. Wie Sonnenuntergang über dem Wasser.", scores: { mallorca: 2, tattoo: 1 } },
       { text: "Schwarz. Wie die Straße um drei Uhr nachts.", scores: { auto: 2, mallorca: 1 } },
+      { text: "Rot. Wie ein Thron, auf dem man nächtelang sitzt.", scores: { chair: 2, style: 1 } },
     ],
   },
   {
@@ -441,6 +451,7 @@ const QUESTIONS = [
       { text: "Gar nicht. Ich war nie hier.", scores: { mallorca: 2, auto: 1 } },
       { text: "Als Lichter, die im Nebel verschwinden.", scores: { auto: 2, mallorca: 1 } },
       { text: "Als der, der jeden Tag ein anderer war.", scores: { style: 2, tattoo: 1 } },
+      { text: "Als der, der vom Thron aus alles gelenkt hat.", scores: { chair: 2, auto: 1 } },
     ],
   },
 ];
@@ -454,6 +465,7 @@ const TIEBREAK = {
     mallorca: "Etwas, das vergeht, aber glüht.",
     auto: "Etwas, das sich bewegt.",
     style: "Etwas, das sich verwandelt.",
+    chair: "Etwas, das mich trägt.",
   },
 };
 
