@@ -355,14 +355,14 @@ const GIFTS = {
 //   type "fakeout": falsches Zwischenergebnis.
 const QUESTIONS = [
   {
-    kind: "Die erste Karte",
-    question: "Ich halte dir fünf Karten hin. Welche ziehst du?",
+    kind: "Gotham brennt",
+    question: "Du stehst auf einem Dach und siehst, wie Gotham brennt. Was machst du?",
     answers: [
-      { text: "Pik-Ass. Die Karte, vor der alle Angst haben.", scores: { tattoo: 2, auto: 1 } },
-      { text: "Herz-Dame. Charme ist auch eine Waffe.", scores: { style: 2, mallorca: 1 } },
-      { text: "Karo-König. Wer zahlt, bestimmt.", scores: { auto: 2, style: 1 } },
-      { text: "Kreuz-Bube. Der, der immer rechtzeitig abhaut.", scores: { mallorca: 2, auto: 1 } },
-      { text: "Gar keine. Ich lehn mich zurück und schau zu, wie die anderen verlieren.", scores: { chair: 2, style: 1 } },
+      { text: "Ich male mein Zeichen an die Wand. Jeder soll wissen, wer das war.", scores: { tattoo: 2, auto: 1 } },
+      { text: "Ich richte meinen Anzug und lächle für die Kameras.", scores: { style: 2, mallorca: 1 } },
+      { text: "Ich spring in den nächsten Wagen und fahr mitten durch.", scores: { auto: 2, style: 1 } },
+      { text: "Ich nehm das letzte Boot raus aufs Meer und schau von weitem zu.", scores: { mallorca: 2, auto: 1 } },
+      { text: "Ich lehn mich zurück und genieße die Show.", scores: { chair: 2, style: 1 } },
     ],
   },
   {
@@ -377,23 +377,15 @@ const QUESTIONS = [
     ],
   },
   {
-    kind: "Visitenkarte",
-    question: "Was steht auf deiner Visitenkarte?",
+    kind: "Verhör",
+    question: "Batman hat dich geschnappt. Im Verhör sagst du nur einen Satz. Welchen?",
     answers: [
-      { text: "„Für immer.“", scores: { tattoo: 2, style: 1 } },
-      { text: "„Nicht erreichbar.“", scores: { mallorca: 2, auto: 1 } },
-      { text: "„Schon weg.“", scores: { auto: 2, tattoo: 1 } },
-      { text: "„Du erkennst mich nicht wieder.“", scores: { style: 2, mallorca: 1 } },
-      { text: "„Bitte nicht stören.“", scores: { chair: 2, mallorca: 1 } },
+      { text: "„Was ich hinterlassen habe, kriegst du nie wieder weg.“", scores: { tattoo: 2, style: 1 } },
+      { text: "„Morgen bin ich sowieso ganz woanders.“", scores: { mallorca: 2, auto: 1 } },
+      { text: "„Du warst zu langsam. Wie immer.“", scores: { auto: 2, tattoo: 1 } },
+      { text: "„Du hast mich gar nicht erkannt, oder?“", scores: { style: 2, mallorca: 1 } },
+      { text: "„Weck mich, wenn's spannend wird.“", scores: { chair: 2, mallorca: 1 } },
     ],
-  },
-  {
-    type: "riddle",
-    kind: "Ein echtes Rätsel",
-    question: "Je mehr du davon machst, desto mehr lässt du hinter dir. Was ist es?",
-    accept: ["schritte", "schritt", "fußspuren", "fussspuren", "spuren", "fußstapfen", "fussstapfen"],
-    hint: "Tipp vom Joker: Denk an jemanden, der vor Batman davonläuft…",
-    solution: "Schritte",
   },
   {
     type: "chaos",
