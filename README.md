@@ -1,6 +1,6 @@
 # Geheime Geburtstagsmission 🎁
 
-Ein Geburtstagsrätsel im Joker-Stil auf einer einzigen HTML-Seite. Der Joker hat das Geschenk versteckt und spielt ein Spiel: Karten ziehen, aus Arkham ausbrechen, ein echtes Rätsel, Münzwurf, ein falsches Zwischenergebnis und am Ende ein gezinktes Kartenspiel. Hinter den Kulissen verteilt jede Antwort heimlich Punkte auf fünf Geschenke:
+Ein Geburtstagsrätsel im Joker-Stil auf einer einzigen HTML-Seite. Der Joker hat das Geschenk versteckt und spielt ein Spiel: Gotham brennt, Ausbruch aus Arkham, ein Verhör bei Batman, Münzwurf, ein falsches Zwischenergebnis und am Ende ein gezinktes Kartenspiel. Hinter den Kulissen verteilt jede Antwort heimlich Punkte auf fünf Geschenke:
 
 - ✒️ 300 € Tattoo-Gutschein
 - 🌴 Gutschein für Urlaub auf Mallorca (Flug + Organisation)
@@ -17,7 +17,7 @@ Alles Wichtige steht oben im `<script>`-Block von `index.html` unter **HIER ANPA
 - `CONFIG.name`: Name deines Bruders
 - `CONFIG.from`: Dein Name
 - `GIFTS`: Titel und Text der Gutscheine
-- `QUESTIONS`: Fragen und die geheimen Punkte pro Antwort, dazu das Rätsel (`type: "riddle"`), die Chaos-Runden (`type: "chaos"`) und das falsche Zwischenergebnis (`type: "fakeout"`)
+- `QUESTIONS`: Fragen und die geheimen Punkte pro Antwort, dazu die Chaos-Runden (`type: "chaos"`) und das falsche Zwischenergebnis (`type: "fakeout"`)
 
 ## Ergebnis erfahren (ohne Server)
 
