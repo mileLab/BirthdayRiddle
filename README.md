@@ -1,11 +1,12 @@
 # Geheime Geburtstagsmission 🎁
 
-Ein Geburtstagsrätsel im Joker-Stil auf einer einzigen HTML-Seite. Der Joker hat das Geschenk versteckt und spielt ein Spiel: Karten ziehen, aus Arkham ausbrechen, ein echtes Rätsel, Münzwurf, ein falsches Zwischenergebnis und am Ende ein gezinktes Kartenspiel. Hinter den Kulissen verteilt jede Antwort heimlich Punkte auf vier Geschenke:
+Ein Geburtstagsrätsel im Joker-Stil auf einer einzigen HTML-Seite. Der Joker hat das Geschenk versteckt und spielt ein Spiel: Karten ziehen, aus Arkham ausbrechen, ein echtes Rätsel, Münzwurf, ein falsches Zwischenergebnis und am Ende ein gezinktes Kartenspiel. Hinter den Kulissen verteilt jede Antwort heimlich Punkte auf fünf Geschenke:
 
-- ✒️ Tattoo
-- 🌴 Urlaub auf Mallorca
-- 🚗 Auto
-- 💇 Typveränderung (Haarschnitt + neue Klamotten)
+- ✒️ 300 € Tattoo-Gutschein
+- 🌴 Gutschein für Urlaub auf Mallorca (Flug + Organisation)
+- 🚗 500 € Zuschuss fürs Auto
+- 💇 300 € für eine Typveränderung (Haarschnitt + neue Klamotten)
+- 🎮 250 € für einen Secretlab-Stuhl
 
 Die Antworten verraten das Geschenk nicht direkt: Fast jede Antwort zählt für zwei Geschenke, und die Chaos-Runden zählen gar nicht. Am Ende zieht er eine von vier verdeckten Karten. Egal welche, sie zeigt immer das Geschenk mit den meisten Punkten (der Joker schummelt). Danach gibt es die „Joker-Karte“ als Gutschein. Bei Gleichstand entscheidet eine Stichfrage.
 
