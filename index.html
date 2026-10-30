@@ -116,7 +116,9 @@
   .answer[data-suit="♥"]::before, .answer[data-suit="♦"]::before { color: var(--red); }
   .answers.two .answer { text-align: center; padding: 22px 10px; font-size: 1.1rem; }
   .answers.two .answer::before { top: 12px; left: 10px; transform: none; font-size: 1rem; }
-  .answer:hover { transform: translate(-1px, -2px) rotate(-.6deg); box-shadow: 5px 5px 0 var(--green); }
+  @media (hover: hover) {
+    .answer:hover { transform: translate(-1px, -2px) rotate(-.6deg); box-shadow: 5px 5px 0 var(--green); }
+  }
   .answer.chosen { animation: glitch .45s steps(2) 1; background: var(--green); border-color: var(--green); box-shadow: 3px 3px 0 var(--red); }
   @keyframes glitch {
     0% { transform: translate(0); } 20% { transform: translate(-4px, 2px) skewX(6deg); }
@@ -373,7 +375,7 @@ const QUESTIONS = [
       { text: "Als Wärter verkleidet. Keiner erkennt mich.", scores: { style: 2, mallorca: 1 } },
       { text: "Ich ritze meinen Plan in die Zellenwand und warte.", scores: { tattoo: 2, style: 1 } },
       { text: "Durch die Bucht schwimmen, Richtung Sonnenuntergang.", scores: { mallorca: 2, auto: 1 } },
-      { text: "Gar nicht. Hier gibt es WLAN, und ich plane von hier aus.", scores: { chair: 2, tattoo: 1 } },
+      { text: "Ich mach's mir in der Zelle bequem und lass die anderen den Tunnel graben.", scores: { chair: 2, tattoo: 1 } },
     ],
   },
   {
