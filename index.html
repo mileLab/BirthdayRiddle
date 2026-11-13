@@ -203,6 +203,29 @@
   .hint { font-size: .95rem; }
   .reset-link { background: none; color: var(--muted); font-size: .8rem; text-decoration: underline; opacity: .6; padding: 6px; margin-top: 4px; }
 
+  /* Batman gate (shown until the unlock date) */
+  body.gotham {
+    background:
+      radial-gradient(circle at 75% 12%, rgba(255, 214, 10, .22) 0%, transparent 30%),
+      linear-gradient(180deg, #050814 0%, #0b1530 60%, #050814 100%);
+    background-attachment: fixed;
+  }
+  body.gotham::before { content: none; }
+  .gate { background: rgba(5, 8, 20, .85); border-color: #2b3a67; box-shadow: 0 0 0 4px rgba(255, 214, 10, .1), 0 24px 60px rgba(0, 0, 0, .6); }
+  .gate::before, .gate::after { content: none; }
+  .gate .scene { width: 100%; max-width: 360px; display: block; margin: 0 auto 8px; }
+  .gate .title { color: #ffd60a; text-shadow: 3px 3px 0 #1d2b53, 0 0 18px rgba(255, 214, 10, .35); }
+  .gate .kind { color: #ffd60a; }
+  .gate p { color: #a9b4d0; }
+  .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 18px 0; }
+  .countdown div { background: #0f1a38; border: 1px solid #2b3a67; border-radius: 10px; padding: 10px 2px; }
+  .countdown b { display: block; font-family: var(--comic); font-size: 2rem; letter-spacing: 1px; color: #fff; line-height: 1; }
+  .countdown span { font-size: .72rem; color: #a9b4d0; text-transform: uppercase; letter-spacing: .08em; }
+  .btn.bat { background: #ffd60a; color: #050814; box-shadow: 4px 4px 0 #1d2b53, 0 0 22px rgba(255, 214, 10, .35); }
+  .gate .feedback { color: #ffd60a; }
+  .bat-eyes { animation: blink 5s infinite; }
+  @keyframes blink { 0%, 92%, 100% { opacity: 1; } 95% { opacity: 0; } }
+
   @media (max-width: 380px) {
     h1, .title { font-size: 2.1rem; }
     .answer { font-size: .95rem; }
@@ -215,6 +238,41 @@
 <body>
 <canvas id="confetti"></canvas>
 <main>
+
+  <!-- Gate: Batman guards the page until the unlock date -->
+  <section class="screen" id="gate">
+    <div class="card gate">
+      <svg class="scene" viewBox="0 0 360 260" aria-hidden="true">
+        <circle cx="270" cy="70" r="52" fill="#ffd60a" opacity=".9"/>
+        <circle cx="270" cy="70" r="70" fill="#ffd60a" opacity=".12"/>
+        <g fill="#0b1328">
+          <rect x="0" y="150" width="46" height="110"/><rect x="40" y="120" width="38" height="140"/>
+          <rect x="250" y="135" width="44" height="125"/><rect x="290" y="105" width="34" height="155"/><rect x="320" y="160" width="40" height="100"/>
+        </g>
+        <g fill="#ffd60a" opacity=".55">
+          <rect x="50" y="135" width="5" height="7"/><rect x="62" y="160" width="5" height="7"/><rect x="10" y="170" width="5" height="7"/>
+          <rect x="300" y="125" width="5" height="7"/><rect x="262" y="150" width="5" height="7"/><rect x="306" y="185" width="5" height="7"/>
+        </g>
+        <rect x="60" y="232" width="240" height="28" fill="#050814"/>
+        <!-- caped guardian on the rooftop -->
+        <path fill="#05060a" stroke="#1d2b53" stroke-width="1.5" d="M172,52 L165,30 L162,57 C154,67 156,84 164,90 L128,98 C116,102 112,118 110,138 L92,236 Q112,224 124,236 Q138,222 152,236 Q166,224 180,238 Q194,224 208,236 Q222,222 236,236 Q248,224 268,236 L250,138 C248,118 244,102 232,98 L196,90 C204,84 206,67 198,57 L195,30 L188,52 Q180,49 172,52Z"/>
+        <g class="bat-eyes" fill="#fff">
+          <path d="M168,70 L178,72 L177,75 L169,74Z"/><path d="M192,70 L182,72 L183,75 L191,74Z"/>
+        </g>
+      </svg>
+      <div class="kind">Zutritt verboten</div>
+      <div class="title">Halt!</div>
+      <p id="gateText"></p>
+      <div class="countdown">
+        <div><b id="cdDays">0</b><span>Tage</span></div>
+        <div><b id="cdHours">0</b><span>Std</span></div>
+        <div><b id="cdMins">0</b><span>Min</span></div>
+        <div><b id="cdSecs">0</b><span>Sek</span></div>
+      </div>
+      <button class="btn bat" id="bribeBtn">Batman bestechen</button>
+      <div class="feedback" id="gateFeedback"></div>
+    </div>
+  </section>
 
   <!-- Intro -->
   <section class="screen active" id="intro">
@@ -318,6 +376,7 @@ const CONFIG = {
   name: "Bruderherz",                 // Name deines Bruders
   from: "dein Lieblingsgeschwister",  // Von wem das Geschenk ist
   whatsappText: "Der Joker hat entschieden! 🃏 Mein Geburtstagsgeschenk ist: ",
+  unlockAt: "2026-11-21T00:00:00",    // Vorher bewacht Batman die Seite (Ortszeit). Zum Testen: ?vorschau
 };
 
 // Die fünf möglichen Geschenke. Texte frei änderbar.
@@ -756,10 +815,52 @@ $("resetBtn").addEventListener("click", () => {
   location.replace(location.pathname);
 });
 
-if (new URLSearchParams(location.search).has("reset")) store("clear");
-const saved = store("get");
-if (saved && GIFTS[saved]) reveal(saved);
-else setTimeout(() => confetti(90), 300);
+/* ---------- Batman-Sperre bis zum Geburtstag ---------- */
+const BRIBES = [
+  "Batman lässt sich nicht bestechen.",
+  "Nein.",
+  "Immer noch nein.",
+  "Er hat dich gehört. Die Antwort bleibt nein.",
+  "Netter Versuch. Komm am Geburtstag wieder. 🦇",
+];
+let bribes = 0;
+
+function gate(unlock) {
+  document.body.classList.add("gotham");
+  $("gateText").textContent = `Der Joker hat hier etwas für dich versteckt, ${CONFIG.name}. Aber ich bewache diesen Ort, und vor deinem Geburtstag kommt hier keiner rein.`;
+  $("bribeBtn").onclick = () => {
+    $("gateFeedback").textContent = BRIBES[Math.min(bribes++, BRIBES.length - 1)];
+    const card = $("bribeBtn").closest(".card");
+    card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
+  };
+  const pad = (v) => String(v).padStart(2, "0");
+  const tick = () => {
+    const left = unlock - Date.now();
+    if (left <= 0) { clearInterval(timer); return enter(); }
+    const s = Math.floor(left / 1000);
+    $("cdDays").textContent = Math.floor(s / 86400);
+    $("cdHours").textContent = pad(Math.floor(s / 3600) % 24);
+    $("cdMins").textContent = pad(Math.floor(s / 60) % 60);
+    $("cdSecs").textContent = pad(s % 60);
+  };
+  const timer = setInterval(tick, 1000);
+  tick();
+  show("gate");
+}
+
+function enter() {
+  document.body.classList.remove("gotham");
+  const saved = store("get");
+  if (saved && GIFTS[saved]) return reveal(saved);
+  show("intro");
+  setTimeout(() => confetti(90), 300);
+}
+
+const params = new URLSearchParams(location.search);
+if (params.has("reset")) store("clear");
+const unlock = new Date(CONFIG.unlockAt).getTime();
+if (Date.now() < unlock && !params.has("vorschau")) gate(unlock);
+else enter();
 </script>
 </body>
 </html>

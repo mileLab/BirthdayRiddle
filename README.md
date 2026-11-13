@@ -16,6 +16,7 @@ Alles Wichtige steht oben im `<script>`-Block von `index.html` unter **HIER ANPA
 
 - `CONFIG.name`: Name deines Bruders
 - `CONFIG.from`: Dein Name
+- `CONFIG.unlockAt`: Bis zu diesem Zeitpunkt (Ortszeit) bewacht Batman die Seite mit einem Countdown. Zum Testen vorher `?vorschau` an die Adresse hängen.
 - `GIFTS`: Titel und Text der Gutscheine
 - `QUESTIONS`: Fragen und die geheimen Punkte pro Antwort, dazu die Chaos-Runden (`type: "chaos"`) und das falsche Zwischenergebnis (`type: "fakeout"`)
 
